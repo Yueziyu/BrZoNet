@@ -9,7 +9,10 @@ By Ziyu Yue, Jiaxin Gao,  Zhixun Su
 
 ## Dependencies
 ```
-pip install -r requirements.txt
+conda create -n pytorch1 python=3.*
+conda activate pytorch1
+conda install pytorch=1.1 torchvision=0.3 cudatoolkit=9.0 -c pytorch
+pip install matplotlib scikit-image opencv-python yacs joblib natsort h5py tqdm
 ````
 
 ## Download the raw training and evaluation datasets
