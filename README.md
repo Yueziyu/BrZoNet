@@ -16,7 +16,6 @@ pip install matplotlib scikit-image opencv-python yacs joblib natsort h5py tqdm
 ````
 
 ## Download the raw training and evaluation datasets
-### Paired dataset 
 RELLISUR dataset: Andreas Aakerberg, Kamal Nasrollahi, Thomas Moeslund. "RELLISUR: A Real Low-Light Image Super-Resolution Dataset". NeurIPS Datasets and Benchmarks 2021. [RELLISUR](https://vap.aau.dk/rellisur/)
 
 
