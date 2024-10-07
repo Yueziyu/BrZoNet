@@ -3,7 +3,7 @@ By Ziyu Yue, Jiaxin Gao,  Zhixun Su
 
 ## Pipeline
 <p align="center">
-    <img src="./Figures/pipeline.png" alt="pipeline" width="80%">
+    <img src="./Figures/pipeline.png" alt="pipeline" width="90%">
 </p>
 
 
@@ -42,11 +42,11 @@ python basicsr/test.py -opt /Super_Resolution/Options/msc_retinex_srnet_v12_scal
 ## Visual comparison
  
 <p align="center">
-    <img src="./Figures/result1.png" alt="result1" width="80%">
+    <img src="./Figures/result1.png" alt="result1" width="90%">
 </p>
  
 <p align="center">
-    <img src="./Figures/result2.png" alt="result2" width="80%">
+    <img src="./Figures/result2.png" alt="result2" width="90%">
 </p>
 
 ## Citation
