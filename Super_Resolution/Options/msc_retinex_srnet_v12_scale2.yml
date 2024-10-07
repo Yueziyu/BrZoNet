@@ -1,0 +1,145 @@
+# general settings
+name: MSCRetinexSRNetv12_scale2_nearest_lr2e-4_RELLISUR_duibi_11_10_05_08_re
+model_type: MSCRetinexSRModelv1  
+scale: 2
+num_gpu: 1  # set num_gpu: 0 for cpu mode
+manual_seed: 100
+use_grayatten: false
+
+# dataset and data loader settings
+datasets:
+  train:
+    name: TrainSet
+    type: Dataset_PairedImage # Dataset_PairedImage3
+    dataroot_gt: /data2/zyyue/datasets/RELLISUR-Dataset/Train/NLHR-Duplicates/X2
+    dataroot_lq: /data2/zyyue/datasets/RELLISUR-Dataset/Train/LLLR
+     
+    geometric_augs: true
+    use_grayatten: false
+    use_ueatten: false
+    use_multask: false
+
+    filename_tmpl: '{}'
+    io_backend:
+      type: disk
+
+    # data loader
+    use_shuffle: true
+    num_worker_per_gpu: 8
+    batch_size_per_gpu: 8
+
+    ### -------------Progressive training--------------------------
+    mini_batch_sizes: [8,5,4,2,1,1]             # Batch size per gpu   
+    iters: [46000,32000,24000,18000,18000,12000]  
+    gt_size: 384   # Max patch size for progressive training. 384
+    gt_sizes: [128,160,192,256,320,384]  # Patch sizes for progressive training.  
+    ## ------------------------------------------------------------
+ 
+
+    dataset_enlarge_ratio: 1
+    prefetch_mode: ~
+
+  val:
+    name: ValSet
+    type: Dataset_PairedImage
+    dataroot_gt: /data2/zyyue/datasets/RELLISUR-Dataset/Test_crop/NLHR-Duplicates/X2
+    dataroot_lq: /data2/zyyue/datasets/RELLISUR-Dataset/Test_crop/LLLR
+    io_backend:
+      type: disk
+    use_grayatten: false
+
+# network structures
+network_g:
+  type: MSCRetinexSRNetv12 # MIRNetv2Retinexv3
+  inp_channels: 3
+  out_channels: 3
+  n_feat: 64
+  scale: 2
+
+
+# path
+path:
+  pretrain_network_g: ~  
+  strict_load_g: true
+  resume_state: ~  
+
+# training settings
+train:
+  total_iter: 150000 # 300000
+  warmup_iter: -1 # no warm up
+  use_grad_clip: true
+
+ 
+  scheduler:
+    type: CosineAnnealingRestartCyclicLR
+    periods: [46000, 104000] # [92000, 208000]
+    restart_weights: [1,1]
+    eta_mins: [0.0003,0.000001]   
+  
+  mixing_augs:
+    mixup: true
+    mixup_beta: 1.2
+    use_identity: true
+
+  optim_g:
+    type: AdamW
+    lr: !!float 2e-4
+    weight_decay: !!float 1e-4
+    betas: [0.9, 0.999]
+  
+  # losses
+  pixel_opt:
+    type: L1Loss
+    loss_weight: 1
+    reduction: mean
+
+  SATV_opt:
+    type: L_SATV
+    loss_weight: 1
+
+  perceptual_opt:
+    type: PerceptualLoss
+    layer_weights:
+      # before relu
+      'conv1_2': 0.1
+      'conv2_2': 0.1
+      'conv3_4': 1
+      'conv4_4': 1
+      'conv5_4': 1
+    vgg_type: vgg19
+    use_input_norm: true
+    perceptual_weight: !!float 1.2
+    style_weight: 0
+    range_norm: false
+    criterion: l1
+
+ 
+
+# validation settings
+val:
+  window_size: 4
+  val_freq: !!float 3e3
+  save_img: false
+  rgb2bgr: true
+  use_image: true
+  max_minibatch: 8
+
+  metrics:
+    psnr: # metric name, can be arbitrary
+      type: calculate_psnr
+      crop_border: 2
+      test_y_channel: false
+
+# logging settings
+logger:
+  print_freq: 1000
+  save_checkpoint_freq: !!float 3e3
+  use_tb_logger: true
+  wandb:
+    project: ~
+    resume_id: ~
+
+# dist training settings
+dist_params:
+  backend: nccl
+  port: 29500

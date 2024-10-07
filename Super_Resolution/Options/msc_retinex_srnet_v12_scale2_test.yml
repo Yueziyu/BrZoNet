@@ -1,0 +1,111 @@
+# general settings
+name: MSCRetinexSRNetv12_scale2_nearest_lr3e-4_RELLISUR
+model_type: MSCRetinexSRModelv1  
+scale: 2
+num_gpu: 1  # set num_gpu: 0 for cpu mode
+manual_seed: 100
+use_grayatten: false
+
+# dataset and data loader settings
+datasets:
+  
+
+  val:
+    name: ValSet
+    type: Dataset_PairedImage
+    dataroot_gt: /data2/zyyue/datasets/Dark_face_crop
+    dataroot_lq: /data2/zyyue/datasets/Dark_face_crop
+    io_backend:
+      type: disk
+    use_grayatten: false
+
+# network structures
+network_g:
+  type: MSCRetinexSRNetv12  
+  inp_channels: 3
+  out_channels: 3
+  n_feat: 64
+  scale: 2
+
+
+# path
+path:
+  pretrain_network_g: ./models/net_g_147000.pth
+  strict_load_g: true
+  resume_state: ~  
+
+# training settings
+train:
+  total_iter: 150000 # 300000
+  warmup_iter: -1 # no warm up
+  use_grad_clip: true
+
+  # Split 300k iterations into two cycles. 
+  # 1st cycle: fixed 3e-4 LR for 92k iters. 
+  # 2nd cycle: cosine annealing (3e-4 to 1e-6) for 208k iters.
+  scheduler:
+    type: CosineAnnealingRestartCyclicLR
+    periods: [46000, 104000] # [92000, 208000]
+    restart_weights: [1,1]
+    eta_mins: [0.0003,0.000001]   
+  
+  mixing_augs:
+    mixup: true
+    mixup_beta: 1.2
+    use_identity: true
+
+  optim_g:
+    type: AdamW
+    lr: !!float 3e-4
+    weight_decay: !!float 1e-4
+    betas: [0.9, 0.999]
+  
+  # losses
+  pixel_opt:
+    type: L1Loss
+    loss_weight: 1
+    reduction: mean
+
+  SATV_opt:
+    type: L_SATV
+    loss_weight: 1
+
+  perceptual_opt:
+    type: PerceptualLoss
+    layer_weights:
+      # before relu
+      'conv1_2': 0.1
+      'conv2_2': 0.1
+      'conv3_4': 1
+      'conv4_4': 1
+      'conv5_4': 1
+    vgg_type: vgg19
+    use_input_norm: true
+    perceptual_weight: !!float 1.2
+    style_weight: 0
+    range_norm: false
+    criterion: l1
+ 
+val:
+  window_size: 4
+  val_freq: !!float 3e3
+  save_img: true
+  rgb2bgr: true
+  use_image: true
+  max_minibatch: 8
+
+ 
+
+# logging settings
+logger:
+  print_freq: 1000
+  save_checkpoint_freq: !!float 3e3
+  use_tb_logger: true
+  wandb:
+    project: ~
+    resume_id: ~
+
+# dist training settings
+dist_params:
+  backend: nccl
+  port: 29500
