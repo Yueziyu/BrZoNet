@@ -16,14 +16,10 @@ pip install -r requirements.txt
 ### Paired dataset 
 RELLISUR dataset: Andreas Aakerberg, Kamal Nasrollahi, Thomas Moeslund. "RELLISUR: A Real Low-Light Image Super-Resolution Dataset". NeurIPS Datasets and Benchmarks 2021. [RELLISUR](https://vap.aau.dk/rellisur/)
 
-### Unpaired dataset 
-Please refer to DARK FACE dataset: Yang, Wenhan and Yuan, Ye and Ren, Wenqi and Liu, Jiaying and Scheirer, Walter J. and Wang, Zhangyang and Zhang, and et al. "DARK FACE: Face Detection in Low Light Condition". IEEE Transactions on Image Processing, 2020. [DARK FACE](https://flyywh.github.io/CVPRW2019LowLight/)
-
-Please refer to Dark Zurich dataset: Christos Sakaridis, Dengxin Dai, Luc van Gool. "Guided Curriculum Model Adaptation and Uncertainty-Aware Evaluation for Semantic Nighttime Image Segmentation". ICCV, 2019. [Dark Zurich](https://www.trace.ethz.ch/publications/2019/GCMA_UIoU/)
-
 
 ## Pre-trained Models 
-You can download our pre-trained model from [[Google Drive]](https://drive.google.com/drive/folders/1m3t15rWw76IDDWJ0exLOe5P0uEnjk3zl?usp=drive_link) and [[Baidu Yun (extracted code:cjzk)]](https://pan.baidu.com/s/1fPLVgnZbdY1n75Flq54bMQ)
+- Download the pre-trained models and place them in `./pretrained_models/`: 
+You can download our pre-trained model from [[Baidu Yun (extracted code:51ir)]](https://pan.baidu.com/s/1JXZmUSoD9vGArAgPlKunMg)
 
 ## How to train?
 You need to modify ```datasets/dataset.py``` slightly for your environment
@@ -40,13 +36,12 @@ python basicsr/test.py -opt /Super_Resolution/Options/msc_retinex_srnet_v12_scal
 ```
 
 
-## Results
-- Visual comparison
+## Visual comparison
+ 
 <p align="center">
     <img src="./Figures/result1.png" alt="result1" width="80%">
 </p>
-
-- Benchmark Evaluation
+ 
 <p align="center">
     <img src="./Figures/result2.png" alt="result2" width="80%">
 </p>
