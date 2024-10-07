@@ -64,7 +64,7 @@ If you use this code or ideas from the paper for your research, please cite our 
 ```
 
 ## Acknowledgement
-Part of the code is adapted from previous works: [BasicSR](https://github.com/XPixelGroup/BasicSR) and [MIRNet](https://github.com/swz30/MIRNet) (code structure). We thank all the authors for their contributions.
+This code is based on the [BasicSR](https://github.com/XPixelGroup/BasicSR) (code structure) toolbox. We thank all the authors for their contributions.
 
 Please contact me if you have any questions at: 11901015@mail.dlut.edu.cn
 
