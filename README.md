@@ -41,7 +41,7 @@ python basicsr/test.py -opt /Super_Resolution/Options/msc_retinex_srnet_v12_scal
 ## Visual comparison
  
 <p align="center">
-    <img src="./Figures/result1.png" alt="result1" width="90%">
+    <img src="./Figures/result1.png" alt="result1" width="91%">
 </p>
  
 <p align="center">
