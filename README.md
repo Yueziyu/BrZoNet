@@ -21,7 +21,7 @@ RELLISUR dataset: Andreas Aakerberg, Kamal Nasrollahi, Thomas Moeslund. "RELLISU
 
 ## Pre-trained Models 
 - Download the pre-trained models and place them in `./pretrained_models/`: 
-You can download our pre-trained model from [[Baidu Yun (extracted code:51ir)]](https://pan.baidu.com/s/1JXZmUSoD9vGArAgPlKunMg)
+You can download our pre-trained model from [[Baidu Yun (extracted code:u7th)]](https://pan.baidu.com/s/1UtJ6em_9BPCbpzQO_Jk9eQ?pwd=u7th)
 
 ## How to train?
 You need to modify ```datasets/dataset.py``` slightly for your environment
